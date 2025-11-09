@@ -2,10 +2,12 @@
 
 [![Status](https://img.shields.io/badge/Status-Finished-brightgreen.svg)](https://github.com/zakizulham/medical-cost-prediction-analysis/graphs/commit-activity)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.14](https://img.shields.io/badge/python-3.14-blue.svg)](https://www.python.org/downloads/)
 [![Kaggle Dataset](https://img.shields.io/badge/Kaggle-Dataset-blue.svg)](https://www.kaggle.com/datasets/mirichoi0218/insurance/data)
-[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Used-orange.svg)](https://scikit-learn.org/stable/)
+[![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/release/python-3130/)
 [![Jupyter Notebook](https://img.shields.io/badge/Jupyter-Used-red.svg)](https://jupyter.org/)
+[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Used-orange.svg)](https://scikit-learn.org/stable/)
+[![XGBoost](https://img.shields.io/badge/XGBoost-Used-darkgreen.svg)](https://xgboost.ai/)
+[![SHAP](https://img.shields.io/badge/SHAP-Used-900c3f.svg)](https://shap.readthedocs.io/en/latest/)
 
 Repositori ini mendokumentasikan analisis komprehensif terhadap dataset "Medical Cost Personal Datasets" dari Kaggle. Tujuan dari proyek ini adalah untuk menerapkan metodologi CRISP-ML(Q) terstruktur untuk mengeksplorasi, memodelkan, dan mengevaluasi berbagai pendekatan machine learning dari perspektif aktuaria dan ilmu data.
 
