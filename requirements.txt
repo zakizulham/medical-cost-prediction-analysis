@@ -16,3 +16,6 @@ numpy
 # --- Untuk Machine Learning ---
 scikit-learn
 joblib  
+
+# --- Untuk Eksplanasi AI ---
+shap
