@@ -17,5 +17,8 @@ numpy
 scikit-learn
 joblib  
 
+# --- Untuk Model ---
+xgboost
+
 # --- Untuk Eksplanasi AI ---
 shap
