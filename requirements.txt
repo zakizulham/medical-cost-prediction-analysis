@@ -1,0 +1,18 @@
+# requirements.txt
+
+# --- Untuk EDA & Lingkungan Notebook ---
+jupyter
+ipykernel
+notebook
+
+# -- Untuk Visualisasi ---
+matplotlib
+seaborn
+
+# --- Untuk Data Analysis & Feature Engineering ---
+pandas
+numpy
+
+# --- Untuk Machine Learning ---
+scikit-learn
+joblib  
