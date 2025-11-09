@@ -54,38 +54,33 @@ medical-cost-prediction-analysis/
 Setiap *notebook* dibangun di atas *notebook* sebelumnya, mengikuti alur kerja yang logis.
 
 ### 00_Business_Data_Understanding.ipynb
-
 * **Fase CRISP:** 1. Business Understanding, 2. Data Understanding.
-* **Tujuan:** Mendefinisikan pertanyaan bisnis (memprediksi biaya, mengidentifikasi risiko, menemukan segmen) dan melakukan Exploratory Data Analysis (EDA) lengkap pada data mentah.
+* **Tujuan:** Mendefinisikan pertanyaan bisnis (memprediksi biaya, mengidentifikasi risiko, menemukan segmen) dan melakukan Exploratory Data Analysis (EDA) lengkap pada data mentah. Mengidentifikasi `smoker` sebagai prediktor utama dan `charges` yang sangat miring (*skewed*).
 
 ### 01_Data_Preparation.ipynb
-
 * **Fase CRISP:** 3. Data Preparation.
-* **Tujuan:** Membersihkan data, melakukan *feature engineering* (misalnya, *one-hot encoding* untuk variabel kategorikal), dan menerapkan *scaling* pada fitur numerik.
-* **Output:** `data/prepared/insurance_features.csv`.
+* **Tujuan:** Mem-prototipe dan memvalidasi "resep" *preprocessing* (One-Hot Encoding, Scaling). *Notebook* ini berfungsi sebagai laboratorium untuk merancang `ColumnTransformer` yang akan digunakan dalam *pipeline* pemodelan.
+* **Output:** `data/prepared/insurance_features.csv` (Hanya untuk inspeksi manual, tidak digunakan dalam pemodelan).
 
 ### 02_Modeling_Cost_Regression_XAI.ipynb
-
 * **Fase CRISP:** 4. Modeling, 5. Evaluation, 6. Deployment (Interpretasi).
 * **Tujuan:** Memprediksi `charges` (Regresi).
-* **Model:** Membandingkan Generalized Linear Model (GLM) (standar aktuaria) dengan XGBoost Regressor (standar ML).
-* **Evaluasi:** Menggunakan metrik **RMSE** dan **R-squared (R²)**.
-* **Interpretasi:** Menerapkan **SHAP** pada model XGBoost untuk mengidentifikasi dan mengukur pendorong biaya utama.
+* **Model:** Membandingkan Generalized Linear Model (GLM) dengan XGBoost Regressor.
+* **Temuan:** XGBoost (R² 0.85) **secara signifikan mengungguli** GLM (R² 0.26), membuktikan bahwa model non-linear diperlukan untuk menangkap interaksi kompleks (misal: `smoker` + `bmi`).
+* **Interpretasi:** Menerapkan **SHAP** (menggunakan `KernelExplainer` setelah *debugging* `TreeExplainer`) untuk mengonfirmasi bahwa `smoker_yes`, `age`, dan `bmi` adalah pendorong biaya utama.
 * **Output:** `models/cost_regressor.joblib`.
 
 ### 03_Modeling_High_Risk_Classification.ipynb
-
 * **Fase CRISP:** 4. Modeling, 5. Evaluation.
 * **Tujuan:** Mengubah masalah menjadi Klasifikasi Biner (memprediksi nasabah `is_high_cost`).
 * **Model:** Logistic Regression vs. Random Forest Classifier.
-* **Evaluasi:** Menganalisis **Confusion Matrix**, **Precision-Recall**, dan **ROC-AUC Curve**.
+* **Temuan:** Kedua model (Linear dan Non-Linear) menghasilkan performa yang **identik** (ROC-AUC 0.8433). Analisis *Feature Importance* mengonfirmasi ini disebabkan oleh satu fitur biner (`smoker_yes`) yang mendominasi 54% dari keputusan model.
 * **Output:** `models/high_risk_classifier.joblib`.
 
 ### 04_Modeling_Risk_Pool_Clustering.ipynb
-
 * **Fase CRISP:** 4. Modeling (Unsupervised), 5. Evaluation.
-* **Tujuan:** Menggunakan pendekatan *unsupervised* (K-Means Clustering) untuk mengidentifikasi segmen nasabah (risk pools) alami berdasarkan fitur mereka saja (tanpa `charges`).
-* **Evaluasi:** Menggunakan **Elbow Method** dan **Silhouette Score** untuk memilih K optimal, dan menganalisis `charges` rata-rata per cluster yang ditemukan untuk validasi bisnis.
+* **Tujuan:** Mengidentifikasi segmen nasabah (risk pools) alami tanpa menggunakan data `charges`.
+* **Temuan:** Menunjukkan **kegagalan** K-Means standar (yang hanya mengelompokkan berdasarkan `age`). Kemudian mendemonstrasikan **keberhasilan** pendekatan kedua dengan *feature weighting* (memberi bobot 10x pada `smoker`) yang berhasil memisahkan populasi menjadi 4 *risk pools* yang jelas (2 cluster Perokok, 2 cluster Non-Perokok), yang divalidasi dengan `charges` asli.
 
 ## Replikasi
 
@@ -96,6 +91,10 @@ Untuk mereplikasi analisis ini secara lokal:
 3.  Install dependensi: `pip install -r requirements.txt`
 4.  Unduh dataset dari [link Kaggle](https://www.kaggle.com/datasets/mirichoi0218/insurance/data) dan letakkan `insurance.csv` di dalam folder `data/raw/`.
 5.  Jalankan *notebook* secara berurutan (00 sampai 04).
+
+---
+
+Untuk folder data dan models yang diabaikan di git. **Sangat REKOMENDASIKAN** untuk jalankan ulang notebooks secara berurutan. Namun, jika sewaktu-waktu data menghilang dan tidak memungkinkan untuk menghasilkan file `*.joblib`. Silahkan akses [Google Drive](https://drive.google.com/drive/folders/1IU6HBHLu3xDX4fWCFWZzzldRC4H5oEtm?usp=sharing) berikut ini untuk pembelajaran.
 
 ## Lisensi
 
